@@ -14,7 +14,7 @@ public class menuInicial : MonoBehaviour
     }
 
     public void Instrucciones(){
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("Instrucciones");
     }
     public void Creditos(){
