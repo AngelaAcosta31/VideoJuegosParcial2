@@ -9,12 +9,13 @@ public class Pausa : MonoBehaviour
     //public AudioSource clip;
     [SerializeField] private GameObject botonPausa;
     [SerializeField] private GameObject menuPausa;
+
    // [SerializeField] private GameObject botonAudio;
     
     private bool juegoPausado = false;
     
 
-    private void update(){
+    private void Update(){
         if(!juegoPausado && Input.GetKeyDown(KeyCode.Pause)){
             if(juegoPausado){
                 Reanudar();
@@ -28,7 +29,7 @@ public class Pausa : MonoBehaviour
         Time.timeScale = 0f;
         botonPausa.SetActive(false);
         menuPausa.SetActive(true);
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         
     }
 
@@ -37,8 +38,7 @@ public class Pausa : MonoBehaviour
         Time.timeScale = 1f;
         botonPausa.SetActive(true);
         menuPausa.SetActive(false);
-        DontDestroyOnLoad(gameObject);
-
+        //DontDestroyOnLoad(gameObject);
     }
 
     public void Reiniciar(){
@@ -46,21 +46,26 @@ public class Pausa : MonoBehaviour
         Time.timeScale = 1f;
         botonPausa.SetActive(true);
         menuPausa.SetActive(false);
-       // DontDestroyOnLoad(gameObject);
-       // SceneManager.UnloadSceneAsync("Juego");
+        //DontDestroyOnLoad(gameObject);
+        SceneManager.UnloadSceneAsync("Juego");
         SceneManager.LoadScene("Juego");
     }
 
 
     public void Salir(){
+        juegoPausado = false;
+        Time.timeScale = 1f;
         botonPausa.SetActive(false);
         menuPausa.SetActive(false);
         //botonAudio.SetActive(false);
-        
+
         // Descarga la escena del juego actual
-        //SceneManager.UnloadSceneAsync("Juego");
+        SceneManager.UnloadSceneAsync("Juego");
         SceneManager.LoadScene("Menu");
     }
+
+    
+
 
 /*
     public void PauseSoundFondo(){
