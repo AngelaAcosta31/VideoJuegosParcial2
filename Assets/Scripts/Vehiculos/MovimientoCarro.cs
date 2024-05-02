@@ -1,0 +1,159 @@
+using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;
+
+public class MovimientoCarro : MonoBehaviour
+{
+    private Rigidbody rb;
+    private RaycastHit[] hits;
+
+    [Header("Configuración de Levitación")]
+    [SerializeField] private float hoverHeight = 2.0f;
+    [SerializeField] private float hoverForce = 10.0f;
+    [SerializeField] private float stabilizationForce = 1.0f;
+    [SerializeField] private Transform[] anchors;
+
+    [Header("Configuración de Movimiento")]
+    [SerializeField] private float maxForwardSpeed = 100.0f;
+    [SerializeField] private float accelerationRate = 10.0f;
+    [SerializeField] private float decelerationRate = 5.0f;
+    [SerializeField] private float maxTurnSpeed = 1.0f;
+    [SerializeField] private Transform[] frontWheels;
+
+    private float currentSpeed = 0.0f;
+    private bool isGrounded = false;  // Variable para verificar si está en el suelo
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        hits = new RaycastHit[anchors.Length];
+    }
+
+    void Update(){
+        Debug.Log(currentSpeed);
+    }
+
+    void FixedUpdate()
+    {
+        ApplyGravityCompensation();
+        CheckGrounded();
+        HandleMovement();
+        ApplyHoverForces();
+    }
+
+    void ApplyGravityCompensation()
+    {
+        rb.AddForce(Vector3.down * 20f, ForceMode.Acceleration);
+    }
+
+    void CheckGrounded()
+    {
+        isGrounded = false;
+        foreach (Transform anchor in anchors)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(anchor.position, -anchor.up, out hit, hoverHeight))
+            {
+                isGrounded = true;
+
+                hits[System.Array.IndexOf(anchors, anchor)] = hit;
+                break;
+            }
+        }
+    }
+
+
+    void HandleMovement()
+    {
+        float turnInput = Input.GetAxis("Horizontal");
+        float turnAngle = turnInput * 0.25f * maxTurnSpeed;
+
+        bool isAccelerating = Input.GetButton("Fire1");
+        bool isBraking = Input.GetButton("Brake");
+
+        if (isBraking)
+        {
+            currentSpeed = Mathf.MoveTowards(currentSpeed, 0.0f, decelerationRate * 3 * Time.fixedDeltaTime);
+        }
+
+        else if (isAccelerating && isGrounded)
+
+        {
+            currentSpeed = Mathf.MoveTowards(currentSpeed, maxForwardSpeed, accelerationRate * Time.fixedDeltaTime);
+        }
+
+        else
+        {
+            // Desacelerar gradualmente si no se está acelerando ni frenando
+            currentSpeed = Mathf.MoveTowards(currentSpeed, 0.0f, decelerationRate * Time.fixedDeltaTime);
+        }
+
+        SetFrontWheelsAngle(turnAngle);
+        rb.AddRelativeTorque(Vector3.up * turnAngle, ForceMode.Acceleration);
+        rb.AddRelativeForce(Vector3.forward * currentSpeed, ForceMode.Acceleration);
+    }
+
+
+    void SetFrontWheelsAngle(float turnAngle)
+    {
+        if (frontWheels == null || frontWheels.Length == 0)
+            return;
+
+        foreach (Transform frontWheel in frontWheels)
+        {
+            frontWheel.localEulerAngles = new Vector3(frontWheel.localEulerAngles.x, turnAngle*30, frontWheel.localEulerAngles.z);
+        }
+    }
+
+    void ApplyHoverForces()
+    {
+        for (int i = 0; i < anchors.Length; i++)
+        {
+            ApplyHoverForce(anchors[i], i);
+        }
+    }
+
+    void ApplyHoverForce(Transform anchor, int index)
+    {
+        bool hitSomething = Physics.Raycast(anchor.position, -anchor.up, out hits[index], hoverHeight);
+        float rayLength = hitSomething? hits[index].distance : hoverHeight;
+
+        Debug.DrawRay(anchor.position, -anchor.up * rayLength, Color.red);
+
+        if (hitSomething)
+        {
+            float distance = hits[index].distance;
+            float hoverError = hoverHeight - distance;
+
+            // Solo aplicamos la fuerza de anclaje si el coche no está saltando
+            if (rb.velocity.y < 0.5f && hoverError > 0)
+            {
+                float hoverForceToApply = hoverError * hoverForce;
+                rb.AddForceAtPosition(Vector3.up * hoverForceToApply, anchor.position, ForceMode.Acceleration);
+                Stabilize(anchor, hits[index]);
+            }
+        }
+    }
+
+    void Stabilize(Transform anchor, RaycastHit hit)
+    {
+        float stabilityError = Vector3.Dot(rb.transform.up, hit.normal) - 1f;
+        float stabilizationTorque = stabilityError * stabilizationForce;
+        rb.AddTorque(rb.transform.right * stabilizationTorque, ForceMode.Acceleration);
+    }
+
+void OnCollisionEnter(Collision collision)
+{
+    // Ajustar la velocidad del carro en función de la fuerza y la dirección de la colisión
+    float collisionForce = collision.impulse.magnitude;
+    Vector3 collisionDirection = collision.contacts[0].normal;
+
+    // Verificar si la colisión no ocurre en la parte inferior del vehículo
+    if (Vector3.Angle(collisionDirection, Vector3.up) > 45f)
+    {
+        Debug.Log(collisionDirection);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, collisionForce * decelerationRate * Time.fixedDeltaTime);
+        rb.AddForce(-collisionDirection * collisionForce, ForceMode.Impulse);
+    }
+}
+}
