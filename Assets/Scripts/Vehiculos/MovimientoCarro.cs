@@ -1,9 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class MovimientoCarro : MonoBehaviour
 {
+
+    [Header("ID")]
+    public int CarID = 0;
+    private int checkPointsCrossed = 0;
+    private GameManager gameManager;
+
     private Rigidbody rb;
     private RaycastHit[] hits;
 
@@ -21,12 +28,22 @@ public class MovimientoCarro : MonoBehaviour
     [SerializeField] private Transform[] frontWheels;
 
     private float currentSpeed = 0.0f;
-    private bool isGrounded = false;  // Variable para verificar si está en el suelo
+    private bool isGrounded = false;
+
+    private PlayerInput playerInput;
+    private InputActionAsset inputAsset;
+    private InputActionMap player;
+
+    private 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         hits = new RaycastHit[anchors.Length];
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        playerInput = GetComponent<PlayerInput>();
+        inputAsset = GetComponent<PlayerInput>().actions;
+        player = inputAsset.FindActionMap("Gameplay");
     }
 
     void Update(){
@@ -65,34 +82,39 @@ public class MovimientoCarro : MonoBehaviour
 
     void HandleMovement()
     {
-        float turnInput = Input.GetAxis("Horizontal");
-        float turnAngle = turnInput * 0.25f * maxTurnSpeed;
+        // Leer las entradas del jugador para dirección, aceleración y frenado
+        float turnInput = playerInput.actions["Direction"].ReadValue<float>();
+        float accelerateInput = playerInput.actions["Accelerate"].ReadValue<float>();
+        float brakeInput = playerInput.actions["Brake"].ReadValue<float>();
 
-        bool isAccelerating = Input.GetButton("Fire1");
-        bool isBraking = Input.GetButton("Brake");
+        float turnAngle = turnInput *0.25f* maxTurnSpeed;
 
-        if (isBraking)
+        HandleSpeed(accelerateInput, brakeInput);
+        SetFrontWheelsAngle(turnAngle);
+        ApplyMovement(turnAngle);
+    }
+
+    void HandleSpeed(float accelerateInput, float brakeInput)
+    {
+        if (brakeInput > 0)
         {
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0.0f, decelerationRate * 3 * Time.fixedDeltaTime);
         }
-
-        else if (isAccelerating && isGrounded)
-
+        else if (accelerateInput > 0 && isGrounded)
         {
             currentSpeed = Mathf.MoveTowards(currentSpeed, maxForwardSpeed, accelerationRate * Time.fixedDeltaTime);
         }
-
         else
         {
-            // Desacelerar gradualmente si no se está acelerando ni frenando
-            currentSpeed = Mathf.MoveTowards(currentSpeed, 0.0f, decelerationRate * Time.fixedDeltaTime);
+             currentSpeed = Mathf.MoveTowards(currentSpeed, 0.0f, decelerationRate * Time.fixedDeltaTime);
         }
+    }
 
-        SetFrontWheelsAngle(turnAngle);
+    void ApplyMovement(float turnAngle)
+    {
         rb.AddRelativeTorque(Vector3.up * turnAngle, ForceMode.Acceleration);
         rb.AddRelativeForce(Vector3.forward * currentSpeed, ForceMode.Acceleration);
     }
-
 
     void SetFrontWheelsAngle(float turnAngle)
     {
@@ -142,18 +164,32 @@ public class MovimientoCarro : MonoBehaviour
         rb.AddTorque(rb.transform.right * stabilizationTorque, ForceMode.Acceleration);
     }
 
-void OnCollisionEnter(Collision collision)
-{
-    // Ajustar la velocidad del carro en función de la fuerza y la dirección de la colisión
-    float collisionForce = collision.impulse.magnitude;
-    Vector3 collisionDirection = collision.contacts[0].normal;
-
-    // Verificar si la colisión no ocurre en la parte inferior del vehículo
-    if (Vector3.Angle(collisionDirection, Vector3.up) > 45f)
+    void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collisionDirection);
-        currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, collisionForce * decelerationRate * Time.fixedDeltaTime);
-        rb.AddForce(-collisionDirection * collisionForce, ForceMode.Impulse);
+        // Ajustar la velocidad del carro en función de la fuerza y la dirección de la colisión
+        float collisionForce = collision.impulse.magnitude;
+        Vector3 collisionDirection = collision.contacts[0].normal;
+
+        // Verificar si la colisión no ocurre en la parte inferior del vehículo
+        if (Vector3.Angle(collisionDirection, Vector3.up) > 45f)
+        {
+            Debug.Log(collisionDirection);
+            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, collisionForce * decelerationRate * Time.fixedDeltaTime);
+            rb.AddForce(-collisionDirection * collisionForce, ForceMode.Impulse);
+        }
     }
-}
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("CheckPoint")){
+
+            if (gameManager.isfinishedLap(CarID, checkPointsCrossed)){
+                gameManager.UpdateLaps(CarID);
+                checkPointsCrossed = 1;
+            } else{
+                checkPointsCrossed += 1;
+            }
+            gameManager.CarCollectedCp(CarID,checkPointsCrossed);
+        }
+    }
 }

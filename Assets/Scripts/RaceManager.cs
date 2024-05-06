@@ -1,73 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-public class GameManager : MonoBehaviour
+
+public class RaceManager : MonoBehaviour
 {
-
-    [Header("Configuración de Camara")]
-    public CameraManager cameraManager;
-
-    [Header("Configuración de jugadores")]
-    public int totalCars;
-    public GameObject m_CarPrefab;
-    public Transform[] spawnPoints;
-    public  List<GameObject> m_CarsList;
-    private GameObject CurrentCar;
-
-    [Header("Configuración de Carrera")]
     public GameObject CheckPoint;
     public GameObject CheckPointContainer;
+    public GameObject[] Cars;
     public Transform[]  CheckPointPositions;
     public GameObject[] CheckPointForEachCar;
     public Vector3 checkpointScale = new Vector3(2.0f, 2.0f, 2.0f);
+
     public int[] CurrentLapCar;
 
+    private int totalCars;
     private int totalCheckPoints;
 
-
-    void Start()
-    {
-        InitializeCars();
-        cameraManager.SetupCameras(GetPlayerTransforms());
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P) && m_CarsList.Count < 4)
-        {
-            AddCar();
-            cameraManager.SetupCameras(GetPlayerTransforms());
-        }
-    }
-
-    private void InitializeCars()
-    {
-        for (int i = 0; i < totalCars; i++)
-        {
-            AddCar();
-        }
-    }
-
-    void AddCar(){
-        CurrentCar = Instantiate(m_CarPrefab, spawnPoints[m_CarsList.Count].position,  spawnPoints[m_CarsList.Count].rotation);
-        CurrentCar.name = $"Carro {m_CarsList.Count}";
-        CurrentCar.GetComponent<MovimientoCarro>().CarID = m_CarsList.Count;
-        CurrentCar.layer = 6 + m_CarsList.Count;      
-        m_CarsList.Add(CurrentCar);
-    }
-
-    private List<GameObject> GetPlayerTransforms()
-        {
-            List<GameObject> transforms = new List<GameObject>();
-            foreach (var car in m_CarsList)
-            {
-                transforms.Add(car);
-            }
-            return transforms;
-        }
-
-     public void setCheckPoints(){
+    public void setCheckPoints(){
+        totalCars = Cars.Length;
         totalCheckPoints = CheckPointContainer.transform.childCount;
         CheckPointPositions = new Transform[totalCheckPoints];
         CurrentLapCar = new int[totalCars];
@@ -83,6 +33,7 @@ public class GameManager : MonoBehaviour
             CheckPointForEachCar[i].layer = 6 + i;           
         }
     }
+
     public void CarCollectedCp(int CarID, int checkPointNumber){
         CheckPointForEachCar[CarID].transform.position = CheckPointPositions[checkPointNumber].position;
         CheckPointForEachCar[CarID].transform.rotation = CheckPointPositions[checkPointNumber].rotation;    
@@ -94,5 +45,12 @@ public class GameManager : MonoBehaviour
 
     public void UpdateLaps(int CarID){
         CurrentLapCar[CarID] += 1;
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.M)){
+            setCheckPoints();
+        }
     }
 }

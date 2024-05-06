@@ -41,9 +41,6 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-
-
-
     private void AdjustCameraView(int playerCount)
     {
         switch (playerCount)
