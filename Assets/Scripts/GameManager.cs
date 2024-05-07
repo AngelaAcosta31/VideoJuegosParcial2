@@ -53,9 +53,12 @@ public class GameManager : MonoBehaviour
         CurrentCar = Instantiate(m_CarPrefab, spawnPoints[m_CarsList.Count].position,  spawnPoints[m_CarsList.Count].rotation);
         CurrentCar.name = $"Carro {m_CarsList.Count}";
         CurrentCar.GetComponent<MovimientoCarro>().CarID = m_CarsList.Count;
+        PlayerInput playerInput =  CurrentCar.GetComponent<PlayerInput>();
         CurrentCar.layer = 6 + m_CarsList.Count;      
         m_CarsList.Add(CurrentCar);
+        Debug.Log($"Player {playerInput.playerIndex} joined with device: {playerInput.devices.Count}");
     }
+    
 
     private List<GameObject> GetPlayerTransforms()
         {

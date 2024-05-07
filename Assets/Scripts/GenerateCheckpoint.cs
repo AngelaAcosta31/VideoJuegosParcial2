@@ -40,7 +40,6 @@ void GenerateCheckpoints()
 
         checkpoints.Add(checkpoint);
 
-        Debug.Log($"Checkpoint{i + 1} - Posición: {position}, Orientación: {orientation}");
     }
 }
 }
