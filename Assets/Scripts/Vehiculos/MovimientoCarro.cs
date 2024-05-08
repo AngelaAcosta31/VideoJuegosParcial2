@@ -8,7 +8,11 @@ public class MovimientoCarro : MonoBehaviour
 
     [Header("ID")]
     public int CarID = 0;
-    private int checkPointsCrossed = 0;
+    public int checkPointsCrossed = 0;
+    public int RacePosition;
+
+    public int CurrentLap = 1;
+
     private GameManager gameManager;
 
     private Rigidbody rb;
@@ -31,10 +35,6 @@ public class MovimientoCarro : MonoBehaviour
     private bool isGrounded = false;
 
     private PlayerInput playerInput;
-    private InputActionAsset inputAsset;
-    private InputActionMap player;
-
-    private 
 
     void Start()
     {
@@ -42,12 +42,10 @@ public class MovimientoCarro : MonoBehaviour
         hits = new RaycastHit[anchors.Length];
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         playerInput = GetComponent<PlayerInput>();
-        inputAsset = GetComponent<PlayerInput>().actions;
-        player = inputAsset.FindActionMap("Gameplay");
     }
 
     void Update(){
-        Debug.Log(currentSpeed);
+       //Debug.Log(currentSpeed);
     }
 
     void FixedUpdate()
@@ -82,7 +80,6 @@ public class MovimientoCarro : MonoBehaviour
 
     void HandleMovement()
     {
-        // Leer las entradas del jugador para dirección, aceleración y frenado
         float turnInput = playerInput.actions["Direction"].ReadValue<float>();
         float accelerateInput = playerInput.actions["Accelerate"].ReadValue<float>();
         float brakeInput = playerInput.actions["Brake"].ReadValue<float>();
@@ -173,7 +170,7 @@ public class MovimientoCarro : MonoBehaviour
         // Verificar si la colisión no ocurre en la parte inferior del vehículo
         if (Vector3.Angle(collisionDirection, Vector3.up) > 45f)
         {
-            Debug.Log(collisionDirection);
+            //Debug.Log(collisionDirection);
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, collisionForce * decelerationRate * Time.fixedDeltaTime);
             rb.AddForce(-collisionDirection * collisionForce, ForceMode.Impulse);
         }
@@ -186,6 +183,7 @@ public class MovimientoCarro : MonoBehaviour
             if (gameManager.isfinishedLap(CarID, checkPointsCrossed)){
                 gameManager.UpdateLaps(CarID);
                 checkPointsCrossed = 1;
+                CurrentLap += 1;
             } else{
                 checkPointsCrossed += 1;
             }

@@ -46,16 +46,14 @@ public class CameraManager : MonoBehaviour
         switch (playerCount)
         {
             case 2:
-                playerCameras[0].rect = new Rect(0.5f, 0, 0.5f, 1);
-                playerCameras[1].rect = new Rect(0f, 0f, 0.5f, 1);
+                playerCameras[0].rect = new Rect(0f, 0f, 0.5f, 1);
+                playerCameras[1].rect = new Rect(0.5f, 0, 0.5f, 1);
                 break;
                 
             case 3:
                 playerCameras[0].rect = new Rect(0f, 0.5f, 0.5f, 0.5f); // Arriba izquierda
                 playerCameras[1].rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f); // Arriba derecha
                 playerCameras[2].rect = new Rect(0f, 0f, 1f, 0.5f); // Abajo a lo largo
-
-
                 break;
             case 4:
                 playerCameras[0].rect = new Rect(0f, 0.5f, 0.5f, 0.5f); // Arriba izquierda
