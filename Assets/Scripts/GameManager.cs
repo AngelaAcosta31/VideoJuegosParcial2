@@ -19,13 +19,16 @@ public class GameManager : MonoBehaviour
     [Header("Configuración de Carrera")]
     public GameObject CheckPoint;
     public GameObject CheckPointContainer;
-    private Transform[]  CheckPointPositions;
+    public Transform[]  CheckPointPositions;
     private GameObject[] CheckPointForEachCar;
     public Vector3 checkpointScale = new Vector3(2.0f, 2.0f, 2.0f);
     public int m_nLaps;
     public int[] CurrentLapCar;
     private int totalCheckPoints;
     public int countdownTime = 5;
+
+    public bool isStarted = false;
+    public bool isFinished = false;
 
     void Start()
     {
@@ -57,7 +60,14 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             countdownTime--;
         }
-        Debug.Log("¡Comienza la carrera!");
+        isStarted = true;
+
+        foreach (GameObject car in m_CarsList){
+            car.GetComponent<MovimientoCarro>().isEnable = true;
+            car.GetComponent<MovimientoCarro>().TimerTxt.enabled = false;
+            
+        }
+
     }
 
     private void InitializeCars()

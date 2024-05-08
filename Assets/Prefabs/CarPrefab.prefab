@@ -921,7 +921,7 @@ GameObject:
   - component: {fileID: 7002346452304938537}
   m_Layer: 0
   m_Name: CarPrefab
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1040,8 +1040,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.5681999, y: 1.7836628, z: 5.5116477}
-  m_Center: {x: 0.0029788017, y: 0.6070411, z: 0.06334925}
+  m_Size: {x: 2.5681999, y: 2.0182033, z: 5.5116477}
+  m_Center: {x: 0.0029788017, y: 0.48977083, z: 0.06334925}
 --- !u!64 &7015053905093144880
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1080,9 +1080,9 @@ MonoBehaviour:
   checkPointsCrossed: 0
   RacePosition: 0
   CurrentLap: 1
-  isFinished: 0
-  hoverHeight: 1.5
-  hoverForce: 20
+  isEnable: 0
+  hoverHeight: 2
+  hoverForce: 15
   stabilizationForce: 1
   anchors:
   - {fileID: 3802253648847269887}
@@ -1319,7 +1319,7 @@ PrefabInstance:
       objectReference: {fileID: 8543667489070906093}
     - target: {fileID: 1169891265209309042, guid: b1ddf6e5f793710429858c9ae172e16e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100.69998
+      value: 100.69995
       objectReference: {fileID: 0}
     - target: {fileID: 1169891265209309042, guid: b1ddf6e5f793710429858c9ae172e16e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1331,11 +1331,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3543952938557738936, guid: b1ddf6e5f793710429858c9ae172e16e, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3543952938557738936, guid: b1ddf6e5f793710429858c9ae172e16e, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7050430555963288202, guid: b1ddf6e5f793710429858c9ae172e16e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1351,7 +1351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9143189564908681396, guid: b1ddf6e5f793710429858c9ae172e16e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 111.100006
+      value: 111.099976
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

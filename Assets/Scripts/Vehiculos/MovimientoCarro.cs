@@ -13,10 +13,8 @@ public class MovimientoCarro : MonoBehaviour
     public int checkPointsCrossed = 0;
     public int RacePosition;
     public int CurrentLap = 1;
-    public bool isFinished;
-
+    public bool isEnable;
     private GameManager gameManager;
-
     private Rigidbody rb;
     private RaycastHit[] hits;
 
@@ -42,7 +40,6 @@ public class MovimientoCarro : MonoBehaviour
     public TextMeshProUGUI TimerTxt;
 
 
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -55,14 +52,16 @@ public class MovimientoCarro : MonoBehaviour
     void Update(){
        //Debug.Log(currentSpeed);
        positionTxt.text = $"{RacePosition}.";
-       TimerTxt.text = $"{gameManager.countdownTime}";
+       if (gameManager.countdownTime > 0){
+            TimerTxt.text = $"{gameManager.countdownTime}";
+       }
     }
 
     void FixedUpdate()
     {
         ApplyGravityCompensation();
         CheckGrounded();
-        if (!isFinished){
+        if (isEnable){
             HandleMovement();
         }   
         ApplyHoverForces();
@@ -174,16 +173,16 @@ public class MovimientoCarro : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // Ajustar la velocidad del carro en función de la fuerza y la dirección de la colisión
-        float collisionForce = collision.impulse.magnitude;
-        Vector3 collisionDirection = collision.contacts[0].normal;
-
-        // Verificar si la colisión no ocurre en la parte inferior del vehículo
-        if (Vector3.Angle(collisionDirection, Vector3.up) > 45f)
-        {
-            //Debug.Log(collisionDirection);
-            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, collisionForce * decelerationRate * Time.fixedDeltaTime);
-            rb.AddForce(-collisionDirection * collisionForce, ForceMode.Impulse);
+        if (!collision.gameObject.CompareTag("Player")){
+            float collisionForce = collision.impulse.magnitude;
+            Vector3 collisionDirection = collision.contacts[0].normal;
+            // Verificar si la colisión no ocurre en la parte inferior del vehículo
+            if (Vector3.Angle(collisionDirection, Vector3.up) > 45f)
+            {
+                //Debug.Log(collisionDirection);
+                currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, collisionForce * decelerationRate * Time.fixedDeltaTime);
+                rb.AddForce(-collisionDirection * collisionForce, ForceMode.Impulse);
+            }
         }
     }
 
@@ -192,9 +191,8 @@ public class MovimientoCarro : MonoBehaviour
         if (other.gameObject.CompareTag("CheckPoint")){
 
             if (gameManager.isfinishedLap(CarID, checkPointsCrossed)){
-
                 if (CurrentLap == gameManager.m_nLaps){
-                    isFinished = true;
+                    isEnable = false;
                     gameManager.finishRaceIfLast(RacePosition);
 
                 } else{
