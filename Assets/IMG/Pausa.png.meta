@@ -113,10 +113,10 @@ TextureImporter:
       name: Pausa_0
       rect:
         serializedVersion: 2
-        x: 276
-        y: 269
-        width: 212
-        height: 208
+        x: 283
+        y: 279
+        width: 198
+        height: 188
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90f2ebd09bc71e84b8432561a3b8b23b
-      internalID: 702409937
+      spriteID: a35952a4153f29e4394400aea7208a1f
+      internalID: 983580990
       vertices: []
       indices: 
       edges: []
@@ -133,7 +133,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: eb8649b750a2aac4c88c8f5ca2bf6a89
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Pausa_0: 702409937
+      Pausa_0: 983580990
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

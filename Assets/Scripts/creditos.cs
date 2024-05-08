@@ -11,7 +11,7 @@ public class creditos : MonoBehaviour
     void Start()
     {
         
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         Invoke("Atras",17);
         // Comienza la reproducción de la música cuando la escena inicia.
         
@@ -23,13 +23,13 @@ public class creditos : MonoBehaviour
     }
     void Update(){
         if(Input.GetKey(KeyCode.Escape)){
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("MenuPista");
         }
     }
 
     public void Atras(){
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("Menu");
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("MenuPista");
     }
 
     IEnumerator FadeOutAudio()
@@ -42,7 +42,7 @@ public class creditos : MonoBehaviour
 
         // Cambia a la escena "Menu"
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("MenuPista");
     }
     public void PlaySoundBtn(AudioClip audio){
         clip.PlayOneShot(audio);
