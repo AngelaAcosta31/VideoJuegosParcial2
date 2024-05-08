@@ -7,7 +7,6 @@ public class FollowCamara : MonoBehaviour
     public GameObject Target;
     public GameObject T;
     public float speed = 1.5f;
-    public int index;
 
     void FixedUpdate()
     {

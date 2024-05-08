@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using TMPro;
 
 public class MovimientoCarro : MonoBehaviour
 {
@@ -10,8 +12,8 @@ public class MovimientoCarro : MonoBehaviour
     public int CarID = 0;
     public int checkPointsCrossed = 0;
     public int RacePosition;
-
     public int CurrentLap = 1;
+    public bool isFinished;
 
     private GameManager gameManager;
 
@@ -33,8 +35,13 @@ public class MovimientoCarro : MonoBehaviour
 
     private float currentSpeed = 0.0f;
     private bool isGrounded = false;
-
     private PlayerInput playerInput;
+
+    public TextMeshProUGUI lapTxt;
+    public TextMeshProUGUI positionTxt;
+    public TextMeshProUGUI TimerTxt;
+
+
 
     void Start()
     {
@@ -42,17 +49,22 @@ public class MovimientoCarro : MonoBehaviour
         hits = new RaycastHit[anchors.Length];
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         playerInput = GetComponent<PlayerInput>();
+        lapTxt.text = $"Vuelta {CurrentLap}/{gameManager.m_nLaps}";
     }
 
     void Update(){
        //Debug.Log(currentSpeed);
+       positionTxt.text = $"{RacePosition}.";
+       TimerTxt.text = $"{gameManager.countdownTime}";
     }
 
     void FixedUpdate()
     {
         ApplyGravityCompensation();
         CheckGrounded();
-        HandleMovement();
+        if (!isFinished){
+            HandleMovement();
+        }   
         ApplyHoverForces();
     }
 
@@ -144,7 +156,6 @@ public class MovimientoCarro : MonoBehaviour
             float distance = hits[index].distance;
             float hoverError = hoverHeight - distance;
 
-            // Solo aplicamos la fuerza de anclaje si el coche no está saltando
             if (rb.velocity.y < 0.5f && hoverError > 0)
             {
                 float hoverForceToApply = hoverError * hoverForce;
@@ -181,9 +192,17 @@ public class MovimientoCarro : MonoBehaviour
         if (other.gameObject.CompareTag("CheckPoint")){
 
             if (gameManager.isfinishedLap(CarID, checkPointsCrossed)){
-                gameManager.UpdateLaps(CarID);
-                checkPointsCrossed = 1;
-                CurrentLap += 1;
+
+                if (CurrentLap == gameManager.m_nLaps){
+                    isFinished = true;
+                    gameManager.finishRaceIfLast(RacePosition);
+
+                } else{
+                    checkPointsCrossed = 1;
+                    CurrentLap += 1;
+                    lapTxt.text = $"Vuelta {CurrentLap}/{gameManager.m_nLaps}";
+                }
+
             } else{
                 checkPointsCrossed += 1;
             }

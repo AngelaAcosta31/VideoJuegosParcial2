@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CameraManager : MonoBehaviour
 {
     public GameObject cameraPrefab;
@@ -12,29 +13,14 @@ public class CameraManager : MonoBehaviour
         AdjustOrCreateCameras(playerTransforms);
         AdjustCameraView(playerTransforms.Count);
     }
-    private void AdjustOrCreateCameras(List<GameObject> playerTransforms)
+    private void AdjustOrCreateCameras(List<GameObject> playerList)
     {
-        for (int i = Cameras.Count; i < playerTransforms.Count; i++)
-        {
-            GameObject cameraGameObject = Instantiate(cameraPrefab, new Vector3(0, 5, -6), Quaternion.Euler(20, 0, 0));
+        for (int i = Cameras.Count; i < playerList.Count; i++)
+        {   
+            GameObject cameraGameObject = playerList[i].transform.Find("Camara").gameObject;
             cameraGameObject.name = $"PlayerCamera{i + 1}";
 
             FollowCamara unityCamera = cameraGameObject.GetComponent<FollowCamara>();
-
-            if (unityCamera == null)
-            {
-                unityCamera = cameraGameObject.AddComponent<FollowCamara>();
-            }
-
-            cameraGameObject.transform.SetParent(playerTransforms[i].transform);
-
-            unityCamera.Target = playerTransforms[i];
-
-            Transform positionCamaraTransform = playerTransforms[i].transform.Find("PositionCamera");
-            if (positionCamaraTransform != null)
-            {
-                unityCamera.T = positionCamaraTransform.gameObject;
-            }
 
             Cameras.Add(cameraGameObject);
             playerCameras.Add(cameraGameObject.GetComponent<Camera>());

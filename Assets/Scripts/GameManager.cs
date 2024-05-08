@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class GameManager : MonoBehaviour
 {
 
@@ -12,24 +13,25 @@ public class GameManager : MonoBehaviour
     public int totalCars;
     public GameObject m_CarPrefab;
     public Transform[] spawnPoints;
-    public  List<GameObject> m_CarsList;
+    [HideInInspector] public  List<GameObject> m_CarsList;
     private GameObject CurrentCar;
 
     [Header("Configuración de Carrera")]
     public GameObject CheckPoint;
     public GameObject CheckPointContainer;
-    public Transform[]  CheckPointPositions;
-    public GameObject[] CheckPointForEachCar;
+    private Transform[]  CheckPointPositions;
+    private GameObject[] CheckPointForEachCar;
     public Vector3 checkpointScale = new Vector3(2.0f, 2.0f, 2.0f);
+    public int m_nLaps;
     public int[] CurrentLapCar;
-
     private int totalCheckPoints;
-
+    public int countdownTime = 5;
 
     void Start()
     {
         InitializeCars();
-        cameraManager.SetupCameras(GetPlayerTransforms());
+        cameraManager.SetupCameras(GetPlayerList());
+        StartRace();
     }
 
     void Update()
@@ -38,8 +40,24 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) && m_CarsList.Count < 4 && m_CarsList.Count < totalDevices)
         { 
             AddCar();
-            cameraManager.SetupCameras(GetPlayerTransforms());
+            cameraManager.SetupCameras(GetPlayerList());
         }
+    }
+     public void StartRace()
+    {
+        StartCoroutine(CountdownTimer());
+    }
+
+    IEnumerator CountdownTimer()
+    {
+
+        while (countdownTime > 0)
+        {
+            Debug.Log("Tiempo restante: " + countdownTime);
+            yield return new WaitForSeconds(1);
+            countdownTime--;
+        }
+        Debug.Log("¡Comienza la carrera!");
     }
 
     private void InitializeCars()
@@ -61,14 +79,14 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Player {playerInput.playerIndex} joined with device: {playerInput.devices.Count}");
     }
     
-    private List<GameObject> GetPlayerTransforms()
+    private List<GameObject> GetPlayerList()
         {
-            List<GameObject> transforms = new List<GameObject>();
+            List<GameObject> cars = new List<GameObject>();
             foreach (var car in m_CarsList)
             {
-                transforms.Add(car);
+                cars.Add(car);
             }
-            return transforms;
+            return cars;
         }
 
      public void setCheckPoints(){
@@ -98,37 +116,49 @@ public class GameManager : MonoBehaviour
         return checkPointNumber == totalCheckPoints - 1;
     }
 
+    public void finishRaceIfLast(int RacePosition){
+        if (RacePosition == totalCars){
+            Debug.Log("Carrera Terminada");
+        }
+    }
     public void UpdateLaps(int CarID){
         CurrentLapCar[CarID] += 1;
     }
 
     void comparePosition(int CarID){
+        
         if (m_CarsList[CarID].GetComponent<MovimientoCarro>().RacePosition > 1){
             GameObject currentCar = m_CarsList[CarID];
             int currentCarPosition = currentCar.GetComponent<MovimientoCarro>().RacePosition;
+            int currentCarLap = currentCar.GetComponent<MovimientoCarro>().CurrentLap;
             int currentCarCheckPoint = currentCar.GetComponent<MovimientoCarro>().checkPointsCrossed;
 
             GameObject carInFront = null;
             int carInFrontPosition = 0;
+            int carInFrontLap = 0;
             int carInFrontCheckPoint = 0;
 
             for(int i = 0; i < totalCars; i++){
                 if (m_CarsList[i].GetComponent<MovimientoCarro>().RacePosition == currentCarPosition - 1 ){
                     carInFront = m_CarsList[i];
                     carInFrontPosition = carInFront.GetComponent<MovimientoCarro>().RacePosition;
+                    carInFrontLap = carInFront.GetComponent<MovimientoCarro>().CurrentLap;
                     carInFrontCheckPoint = carInFront.GetComponent<MovimientoCarro>().checkPointsCrossed;
                     break;
                 }
             }
-            if (currentCarCheckPoint > carInFrontCheckPoint){
+            if  (currentCarLap == carInFrontLap){
+                if (currentCarCheckPoint > carInFrontCheckPoint){
+                    currentCar.GetComponent<MovimientoCarro>().RacePosition = currentCarPosition - 1;
+                    carInFront.GetComponent <MovimientoCarro>().RacePosition = carInFrontPosition + 1;
+                }
+            } else if (currentCarLap > carInFrontLap){
                 currentCar.GetComponent<MovimientoCarro>().RacePosition = currentCarPosition - 1;
                 carInFront.GetComponent <MovimientoCarro>().RacePosition = carInFrontPosition + 1;
-                Debug.Log ($"Carro {CarID} Adelanto a Carro {carInFront.GetComponent <MovimientoCarro>().CarID}");
             }
         } 
     }
     
-
     int CalculateTotalInputDevices(){
         int gamepadCount = Gamepad.all.Count;
         int KeyboardMouse = 1;
