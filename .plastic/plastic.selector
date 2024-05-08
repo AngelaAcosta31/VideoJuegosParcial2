@@ -1,4 +1,0 @@
-repository "Parcial2@ElectivaVideojuegos@cloud"
-  path "/"
-    br "/main"
-    co "/main"
