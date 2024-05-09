@@ -784,7 +784,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraManager: {fileID: 1673234357}
   totalCars: 3
-  m_CarPrefab: {fileID: 8543667489070906093, guid: 332d8305685391b43aa22f5fd1919d08, type: 3}
+  m_CarPrefab:
+  - {fileID: 8543667489070906093, guid: 8274e4cb2d6b3cf4fa7d3969d704dcda, type: 3}
+  - {fileID: 8543667489070906093, guid: 21bfa474dc6b9ed4983cd3a460e12f47, type: 3}
+  - {fileID: 8543667489070906093, guid: 332d8305685391b43aa22f5fd1919d08, type: 3}
   spawnPoints:
   - {fileID: 389113940}
   - {fileID: 1739984203}

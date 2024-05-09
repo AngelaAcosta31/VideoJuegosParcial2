@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Configuración de jugadores")]
     public int totalCars;
-    public GameObject m_CarPrefab;
+    public List<GameObject> m_CarPrefab;
     public Transform[] spawnPoints;
     [HideInInspector] public  List<GameObject> m_CarsList;
     private GameObject CurrentCar;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        totalCars = PlayerPrefs.GetInt("CountPlayers");
         InitializeCars();
         cameraManager.SetupCameras(GetPlayerList());
         StartRace();
@@ -40,11 +41,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         int totalDevices = CalculateTotalInputDevices();
-        if (Input.GetKeyDown(KeyCode.P) && m_CarsList.Count < 4 && m_CarsList.Count < totalDevices)
+/*         if (Input.GetKeyDown(KeyCode.P) && m_CarsList.Count < 4 && m_CarsList.Count < totalDevices)
         { 
             AddCar();
             cameraManager.SetupCameras(GetPlayerList());
-        }
+        } */
     }
      public void StartRace()
     {
@@ -74,12 +75,12 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < totalCars; i++)
         {
-            AddCar();
+            AddCar(i);
         }
     }
 
-    void AddCar(){
-        CurrentCar = Instantiate(m_CarPrefab, spawnPoints[m_CarsList.Count].position,  spawnPoints[m_CarsList.Count].rotation);
+    void AddCar(int ID){
+        CurrentCar = Instantiate(m_CarPrefab[PlayerPrefs.GetInt($"selectedCharacter{ID}")], spawnPoints[m_CarsList.Count].position,  spawnPoints[m_CarsList.Count].rotation);
         CurrentCar.name = $"Carro {m_CarsList.Count}";
         CurrentCar.GetComponent<MovimientoCarro>().CarID = m_CarsList.Count;
         CurrentCar.GetComponent<MovimientoCarro>().RacePosition = m_CarsList.Count + 1;

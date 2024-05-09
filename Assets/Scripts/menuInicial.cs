@@ -8,7 +8,7 @@ public class menuInicial : MonoBehaviour
 {
     public void Jugar(){
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("Juego");
+        SceneManager.LoadScene("Seleccion");
     }
 
     public void Instrucciones(){
