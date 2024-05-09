@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "VideoJuegosParcial2.sln"
+    "dotnet.defaultSolution": "Parcial 2 - Quantum Race.sln"
 }
