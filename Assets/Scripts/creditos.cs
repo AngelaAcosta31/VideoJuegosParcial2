@@ -12,7 +12,7 @@ public class creditos : MonoBehaviour
     {
         
         //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
-        Invoke("Atras",17);
+        Invoke("Atras",14);
         // Comienza la reproducción de la música cuando la escena inicia.
         
         if (audioSource != null)

@@ -49,7 +49,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 284, y: 298, z: 286, w: 274}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -113,19 +113,19 @@ TextureImporter:
       name: BotonInstrucciones_0
       rect:
         serializedVersion: 2
-        x: 277
-        y: 270
-        width: 826
-        height: 255
+        x: 282
+        y: 275
+        width: 812
+        height: 257
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68b2d9a29d612ec4e8e09a379d3f82c4
-      internalID: -1741018696
+      spriteID: 78d019cd19f7e7d479ac7b12a22be032
+      internalID: 528320635
       vertices: []
       indices: 
       edges: []
@@ -133,15 +133,15 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: 7bdc1c993cea3414f996e501e95fd113
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BotonInstrucciones_0: -1741018696
+      BotonInstrucciones_0: 528320635
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -113,19 +113,19 @@ TextureImporter:
       name: BotonJugar_0
       rect:
         serializedVersion: 2
-        x: 273
-        y: 283
-        width: 835
-        height: 242
+        x: 278
+        y: 285
+        width: 834
+        height: 248
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab1fc53b7a435574e8cafedb5ac89b32
-      internalID: -551814026
+      spriteID: b493f5184ae30f54a99386effdc99a52
+      internalID: 715463982
       vertices: []
       indices: 
       edges: []
@@ -133,7 +133,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 450a0f8302ccfae4697fff8009b4be5a
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BotonJugar_0: -551814026
+      BotonJugar_0: 715463982
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
