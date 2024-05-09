@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Seleccion.unity
     guid: d941213bad9a5df4eba8b78f41f67546
+  - enabled: 1
+    path: Assets/Scenes/pista test.unity
+    guid: 5436ba11737238d408ac98d973b87465
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: c7241041c438ea147a06d7ad279216bd, type: 2}

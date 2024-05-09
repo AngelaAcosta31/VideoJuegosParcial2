@@ -78,7 +78,7 @@ public class CameraSelection : MonoBehaviour
         if (start){
             StartCoroutine(CountdownTimer());
             if (countdownTime == 0){
-                 SceneManager.LoadScene("complete_track_demo");
+                 SceneManager.LoadScene("pista test");
             }
         }
     }
