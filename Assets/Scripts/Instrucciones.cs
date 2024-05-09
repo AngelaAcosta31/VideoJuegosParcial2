@@ -8,8 +8,8 @@ public class Instrucciones : MonoBehaviour
 {
     //public AudioSource clip;
     public void Atras(){
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("Menu");
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("MenuPista");
     }
 
 /*
@@ -19,7 +19,7 @@ public class Instrucciones : MonoBehaviour
     */
 
     public void Siguiente(){
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("Creditos");
     }
 }

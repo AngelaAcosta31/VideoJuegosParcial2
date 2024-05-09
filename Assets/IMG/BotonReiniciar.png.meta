@@ -113,10 +113,10 @@ TextureImporter:
       name: BotonReiniciar_0
       rect:
         serializedVersion: 2
-        x: 283
-        y: 274
-        width: 816
-        height: 254
+        x: 288
+        y: 271
+        width: 808
+        height: 258
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d61f99a3678ce7488448da658b1f63a
-      internalID: -1012036973
+      spriteID: 1d24a4248f9bf7c419fa956397ae0745
+      internalID: -704993399
       vertices: []
       indices: 
       edges: []
@@ -133,7 +133,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: ab56946eb8712724cbae43211395095c
+    spriteID: 550740397a67435468d2c023cb8134e2
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BotonReiniciar_0: -1012036973
+      BotonReiniciar_0: -704993399
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

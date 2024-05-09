@@ -113,10 +113,10 @@ TextureImporter:
       name: BotonCreditos_0
       rect:
         serializedVersion: 2
-        x: 277
-        y: 265
-        width: 830
-        height: 257
+        x: 282
+        y: 286
+        width: 811
+        height: 252
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fdb359d969bf091418910481fc3598c6
-      internalID: -410671537
+      spriteID: 64382fd4e5331c64c988264468f7d529
+      internalID: -916419814
       vertices: []
       indices: 
       edges: []
@@ -133,7 +133,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 765d827ff35610a41980431dfcf14cac
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BotonCreditos_0: -410671537
+      BotonCreditos_0: -916419814
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

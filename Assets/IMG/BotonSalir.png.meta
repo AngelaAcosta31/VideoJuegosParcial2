@@ -113,10 +113,10 @@ TextureImporter:
       name: BotonSalir_0
       rect:
         serializedVersion: 2
-        x: 284
-        y: 259
-        width: 808
-        height: 265
+        x: 285
+        y: 275
+        width: 806
+        height: 257
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e10f80d97be9c5543b98405ef2b33629
-      internalID: 1338190297
+      spriteID: af39d44e83aade047bbdbee38771006b
+      internalID: 1142105801
       vertices: []
       indices: 
       edges: []
@@ -133,7 +133,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 3085eb02426cef746b470339af6554df
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BotonSalir_0: 1338190297
+      BotonSalir_0: 1142105801
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -16,7 +16,7 @@ public class Pausa : MonoBehaviour
     public Image posicion1;
     public Image posicion2;
     public Image posicion3;
-    //public AudioSource clip;
+    public AudioSource clip;
     [SerializeField] private GameObject botonPausa;
     [SerializeField] private GameObject menuPausa;
 
@@ -119,6 +119,7 @@ public class Pausa : MonoBehaviour
     }
     public void Pausar(){
         juegoPausado = true;
+        clip.Pause();
         Time.timeScale = 0f;
         vuelta1.gameObject.SetActive(false);
         vuelta2.gameObject.SetActive(false);
@@ -134,6 +135,7 @@ public class Pausa : MonoBehaviour
 
     public void Reanudar(){
         juegoPausado = false;
+        clip.Play();
         Time.timeScale = 1f;
         botonPausa.SetActive(true);
         menuPausa.SetActive(false);
@@ -143,43 +145,34 @@ public class Pausa : MonoBehaviour
 
     public void Reiniciar(){
         juegoPausado = false;
+        clip.Play();
         Time.timeScale = 1f;
         botonPausa.SetActive(true);
         menuPausa.SetActive(false);
         //Se debe agregar la condicion de mostrar la posiciony la vuelta
         //DontDestroyOnLoad(gameObject);
-        SceneManager.UnloadSceneAsync("Juego");
+        //SceneManager.UnloadSceneAsync("Juego");
         SceneManager.LoadScene("Juego");
     }
 
 
     public void Salir(){
         juegoPausado = false;
+        //clip.Pause();
         Time.timeScale = 1f;
         botonPausa.SetActive(false);
         menuPausa.SetActive(false);
         //botonAudio.SetActive(false);
 
         // Descarga la escena del juego actual
-        SceneManager.UnloadSceneAsync("Juego");
-        SceneManager.LoadScene("Menu");
+        //SceneManager.UnloadSceneAsync("Juego");
+        SceneManager.LoadScene("MenuPista");
     }
 
     
 
 
-/*
-    public void PauseSoundFondo(){
-        clip.mute = !clip.mute;
-    }
 
-    public void PlaySoundFondo(){
-        clip.Play();
-    }
-
-    public void PlaySoundBtn(AudioClip audio){
-        clip.PlayOneShot(audio);
-    }
-    */
+    
 
 }
