@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject CheckPoint;
     public GameObject CheckPointContainer;
     public Transform[]  CheckPointPositions;
-    private GameObject[] CheckPointForEachCar;
+    public GameObject[] CheckPointForEachCar;
     public Vector3 checkpointScale = new Vector3(2.0f, 2.0f, 2.0f);
     public int m_nLaps;
     public int[] CurrentLapCar;
@@ -30,9 +30,11 @@ public class GameManager : MonoBehaviour
     public bool isStarted = false;
     public bool isFinished = false;
 
+    private void Awake() {
+        totalCars = PlayerPrefs.GetInt("CountPlayers");
+    }
     void Start()
     {
-        totalCars = PlayerPrefs.GetInt("CountPlayers");
         InitializeCars();
         cameraManager.SetupCameras(GetPlayerList());
         StartRace();
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
             AddCar();
             cameraManager.SetupCameras(GetPlayerList());
         } */
+
     }
      public void StartRace()
     {
@@ -87,7 +90,7 @@ public class GameManager : MonoBehaviour
         PlayerInput playerInput =  CurrentCar.GetComponent<PlayerInput>();
         CurrentCar.layer = 6 + m_CarsList.Count;      
         m_CarsList.Add(CurrentCar);
-        Debug.Log($"Player {playerInput.playerIndex} joined with device: {playerInput.devices.Count}");
+        Debug.Log($"Player {playerInput.playerIndex} joined with device: {playerInput.devices[0].name}");
     }
     
     private List<GameObject> GetPlayerList()
@@ -130,6 +133,7 @@ public class GameManager : MonoBehaviour
     public void finishRaceIfLast(int RacePosition){
         if (RacePosition == totalCars){
             Debug.Log("Carrera Terminada");
+            SceneManager.LoadScene("Seleccion");
         }
     }
     public void UpdateLaps(int CarID){

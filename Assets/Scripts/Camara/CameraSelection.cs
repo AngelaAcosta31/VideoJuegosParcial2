@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class CameraSelection : MonoBehaviour
 {
     public GameObject cameraPrefab;
+    public GameObject Player;
     public PlayerInputManager PlayerManager;
     public List<GameObject> Players = new List<GameObject>();
     public List<Camera> playerCameras =  new List<Camera>();
@@ -19,6 +20,15 @@ public class CameraSelection : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P) && PlayerManager.playerCount < 4 ){
+            Instantiate(Player, transform.position, transform.rotation);
+        }
+/*         if (Input.GetKeyDown(KeyCode.O) && PlayerManager.playerCount > 0 ){
+            playerCameras.Capacity -= 1;
+            Destroy(Players[PlayerManager.playerCount - 1]);
+
+        } */
+
         startGame();
     }
     public void SetupCameras()

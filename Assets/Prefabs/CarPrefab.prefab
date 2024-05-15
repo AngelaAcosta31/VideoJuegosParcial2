@@ -1174,7 +1174,7 @@ MonoBehaviour:
     m_ActionId: e05a68be-746a-40fa-badb-19e99ea96946
     m_ActionName: Gameplay/Brake[/Keyboard/s]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 3543952938557738936, guid: b1ddf6e5f793710429858c9ae172e16e, type: 3}

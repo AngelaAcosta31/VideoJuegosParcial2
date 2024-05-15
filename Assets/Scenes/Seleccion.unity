@@ -476,6 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 8979286048597750169, guid: 265d799e6e8f400468f0f6420f2ffea0, type: 3}
+  Player: {fileID: 7160032163016398437, guid: e43742cf408082f4d923d5f4961a13d8, type: 3}
   PlayerManager: {fileID: 889379649}
   Players: []
   playerCameras: []
@@ -610,7 +611,7 @@ MonoBehaviour:
   m_NotificationBehavior: 0
   m_MaxPlayerCount: 4
   m_AllowJoining: 1
-  m_JoinBehavior: 0
+  m_JoinBehavior: 2
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls: []
