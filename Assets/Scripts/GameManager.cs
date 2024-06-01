@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviour
     public bool isStarted = false;
     public bool isFinished = false;
 
+    public Canvas Pausa;
+
+    private bool juegoPausado = false;
+
     private void Awake() {
         totalCars = PlayerPrefs.GetInt("CountPlayers");
     }
@@ -40,16 +44,6 @@ public class GameManager : MonoBehaviour
         StartRace();
     }
 
-    void Update()
-    {
-        int totalDevices = CalculateTotalInputDevices();
-/*         if (Input.GetKeyDown(KeyCode.P) && m_CarsList.Count < 4 && m_CarsList.Count < totalDevices)
-        { 
-            AddCar();
-            cameraManager.SetupCameras(GetPlayerList());
-        } */
-
-    }
      public void StartRace()
     {
         StartCoroutine(CountdownTimer());
@@ -82,14 +76,41 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            SceneManager.LoadScene("Seleccion");
+        }
+    }
+
+    void TogglePausa()
+    {
+        juegoPausado = !juegoPausado;
+        Pausa.enabled = juegoPausado;
+
+        // Detener la lógica del juego
+        if (juegoPausado)
+        {
+            Time.timeScale = 0f; // Detener la escala de tiempo para detener la lógica del juego
+            // Puedes agregar aquí cualquier otra lógica de pausa que necesites
+        }
+        else
+        {
+            Time.timeScale = 1f; // Restablecer la escala de tiempo para reanudar la lógica del juego
+            // Puedes agregar aquí cualquier otra lógica de reanudación que necesites
+        }
+    }
+
     void AddCar(int ID){
         CurrentCar = Instantiate(m_CarPrefab[PlayerPrefs.GetInt($"selectedCharacter{ID}")], spawnPoints[m_CarsList.Count].position,  spawnPoints[m_CarsList.Count].rotation);
         CurrentCar.name = $"Carro {m_CarsList.Count}";
         CurrentCar.GetComponent<MovimientoCarro>().CarID = m_CarsList.Count;
         CurrentCar.GetComponent<MovimientoCarro>().RacePosition = m_CarsList.Count + 1;
         PlayerInput playerInput =  CurrentCar.GetComponent<PlayerInput>();
-        CurrentCar.layer = 6 + m_CarsList.Count;      
+        CurrentCar.layer = 6 + m_CarsList.Count;    
         m_CarsList.Add(CurrentCar);
+        playerInput.SwitchCurrentControlScheme("Gamepad", Gamepad.all[m_CarsList.Count-1]);
+        
         Debug.Log($"Player {playerInput.playerIndex} joined with device: {playerInput.devices[0].name}");
     }
     
@@ -172,11 +193,5 @@ public class GameManager : MonoBehaviour
                 carInFront.GetComponent <MovimientoCarro>().RacePosition = carInFrontPosition + 1;
             }
         } 
-    }
-    
-    int CalculateTotalInputDevices(){
-        int gamepadCount = Gamepad.all.Count;
-        int KeyboardMouse = 1;
-        return gamepadCount + KeyboardMouse;
     }
 }

@@ -19459,6 +19459,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3597071329841926466, guid: 7d5e52de2e2243a47b8ad284e833ddc2, type: 3}
+      propertyPath: Pausa
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6121166096951585960, guid: 7d5e52de2e2243a47b8ad284e833ddc2, type: 3}
       propertyPath: m_Name
       value: Level
