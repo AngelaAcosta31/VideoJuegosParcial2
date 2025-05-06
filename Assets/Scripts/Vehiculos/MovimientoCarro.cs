@@ -155,7 +155,7 @@ public class MovimientoCarro : MonoBehaviour
             float distance = hits[index].distance;
             float hoverError = hoverHeight - distance;
 
-            if (rb.velocity.y < 0.5f && hoverError > 0)
+            if (rb.linearVelocity.y < 0.5f && hoverError > 0)
             {
                 float hoverForceToApply = hoverError * hoverForce;
                 rb.AddForceAtPosition(Vector3.up * hoverForceToApply, anchor.position, ForceMode.Acceleration);
